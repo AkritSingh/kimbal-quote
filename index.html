@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Tasks & Pricing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 1000px;
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 1;
+                max-height: 1000px;
+            }
+            to {
+                opacity: 0;
+                max-height: 0;
+            }
+        }
+        
+        .chevron-transition {
+            transition: transform 0.25s ease;
+        }
+        
+        .chevron-expanded {
+            transform: rotate(90deg);
+        }
+        
+        .breakdown-container {
+            transition: max-height 0.25s ease-out, opacity 0.25s ease-out, padding 0.25s ease-out;
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        
+        .breakdown-container.expanded {
+            max-height: 5000px;
+            opacity: 1;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        
+        .task-item {
+            border-left: 2px solid transparent;
+        }
+        
+        .task-item.level-0 {
+            border-left-color: #4f46e5;
+        }
+        
+        .task-item.level-1 {
+            border-left-color: #6366f1;
+        }
+        
+        .task-item.level-2 {
+            border-left-color: #818cf8;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen py-3 sm:py-4 md:py-6 px-3 sm:px-4 md:px-6">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow-sm p-4 sm:p-5 md:p-6 mb-4 sm:mb-5 md:mb-6 border border-gray-200">
+            <div class="flex items-start gap-2 sm:gap-3 mb-3 sm:mb-4">
+                <div class="w-0.5 sm:w-1 h-8 sm:h-10 bg-gradient-to-b from-indigo-500 to-purple-600 rounded-full flex-shrink-0 mt-1"></div>
+                <div class="min-w-0 flex-1">
+                    <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-1 leading-tight">Kimbal Project Tasks & Pricing</h1>
+                    <p class="text-xs sm:text-sm text-gray-600">Interactive breakdown of all project tasks and their status</p>
+                </div>
+            </div>
+            <div class="mt-4 sm:mt-5 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 sm:gap-5 pt-4 sm:pt-5 border-t border-gray-200">
+                <div class="flex-shrink-0">
+                    <!-- Maintenance Toggle -->
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-xs text-gray-600">Maintenance:</span>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="maintenanceToggle" class="sr-only peer">
+                            <div class="w-8 h-4 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-indigo-600"></div>
+                            <span class="ml-1.5 text-xs font-medium text-gray-700 whitespace-nowrap" id="maintenanceLabel">One Time</span>
+                        </label>
+                    </div>
+                    <div class="flex items-end gap-2.5 sm:gap-3">
+                        <div class="px-3 py-2 sm:px-4 sm:py-2.5 ">
+                            <p class="text-xs text-indigo-600 mb-1 leading-none">Total Estimated Cost</p>
+                            <div class="flex items-baseline gap-1.5">
+                                <p class="text-xl sm:text-2xl font-bold text-indigo-700 leading-tight" id="totalPrice">₹0</p>
+                            </div>
+                        </div>
+                        <div class="px-3 py-2 sm:px-4 sm:py-2.5">
+                            <p class="text-xs text-purple-600 mb-1 leading-none">Estimated Duration</p>
+                            <div class="flex items-baseline gap-1.5">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                <p class="text-xl sm:text-2xl font-bold text-purple-700 leading-tight" id="totalDays">0</p>
+                                <span class="text-xs sm:text-sm text-purple-600 font-semibold">days</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:flex lg:flex-wrap gap-2.5 sm:gap-3 lg:gap-3 xl:gap-4 flex-1 lg:justify-end">
+                    <div class="text-left sm:text-center lg:text-right px-2.5 py-1.5  rounded-lg border border-gray-200">
+                        <p class="text-xs text-gray-500 mb-0.5 leading-none">Total Tasks</p>
+                        <p class="text-base sm:text-lg font-bold text-gray-900 leading-tight" id="totalTasks">0</p>
+                    </div>
+                    <div class="text-left sm:text-center lg:text-right px-2.5 py-1.5  rounded-lg border border-gray-200">
+                        <p class="text-xs text-gray-500 mb-0.5 leading-none">Pending</p>
+                        <p class="text-base sm:text-lg font-bold text-gray-700 leading-tight" id="pendingTasks">0</p>
+                    </div>
+                    <div class="text-left sm:text-center lg:text-right px-2.5 py-1.5  rounded-lg border border-blue-200">
+                        <p class="text-xs text-blue-600 mb-0.5 leading-none">In Progress</p>
+                        <p class="text-base sm:text-lg font-bold text-blue-700 leading-tight" id="inProgressTasks">0</p>
+                    </div>
+                    <div class="text-left sm:text-center lg:text-right px-2.5 py-1.5  rounded-lg border border-green-200">
+                        <p class="text-xs text-green-600 mb-0.5 leading-none">Accomplished</p>
+                        <p class="text-base sm:text-lg font-bold text-green-700 leading-tight" id="accomplishedTasks">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tasks Container -->
+        <div id="tasksContainer" class="space-y-2 sm:space-y-3"></div>
+    </div>
+
+    <script src="task.js"></script>
+    <script>
+        // Format price to Indian Rupee
+        function formatPrice(price) {
+            return new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                maximumFractionDigits: 0
+            }).format(price);
+        }
+
+        // Get status badge styling
+        function getStatusBadge(completion) {
+            const statusMap = {
+                    'not started': { 
+                    bg: 'bg-gray-50', 
+                    text: 'text-gray-700', 
+                    border: 'border-gray-200',
+                    icon: `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>`,
+                    label: 'Not Started' 
+                },
+                'in progress': { 
+                    bg: 'bg-blue-50', 
+                    text: 'text-blue-700', 
+                    border: 'border-blue-200',
+                    icon: `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>`,
+                    label: 'In Progress' 
+                },
+                'completed': { 
+                    bg: 'bg-green-50', 
+                    text: 'text-green-700', 
+                    border: 'border-green-200',
+                    icon: `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>`,
+                    label: 'Completed' 
+                },
+                'on hold': { 
+                    bg: 'bg-amber-50', 
+                    text: 'text-amber-700', 
+                    border: 'border-amber-200',
+                    icon: `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>`,
+                    label: 'On Hold' 
+                }
+            };
+            
+            const status = statusMap[completion.toLowerCase()] || statusMap['not started'];
+            return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1.5 min-h-[2.5rem] rounded-lg text-xs font-semibold ${status.bg} ${status.text} border ${status.border} whitespace-nowrap">
+                ${status.icon}
+                <span>${status.label}</span>
+            </span>`;
+        }
+
+        // Calculate total price recursively
+        // If task has breakdown, sum breakdown items; otherwise use task price
+        function calculateTotalPrice(task) {
+            if (task.breakdown && task.breakdown.length > 0) {
+                let total = 0;
+                task.breakdown.forEach(item => {
+                    total += calculateTotalPrice(item);
+                });
+                return total;
+            }
+            return task.price || 0;
+        }
+        
+        // Get display price for a task (shows breakdown sum if available, otherwise task price)
+        function getDisplayPrice(task) {
+            if (task.breakdown && task.breakdown.length > 0) {
+                return calculateTotalPrice(task);
+            }
+            return task.price || 0;
+        }
+
+        // Calculate total days recursively
+        // If task has breakdown, sum breakdown items; otherwise use task days
+        function calculateTotalDays(task) {
+            if (task.breakdown && task.breakdown.length > 0) {
+                let total = 0;
+                task.breakdown.forEach(item => {
+                    total += calculateTotalDays(item);
+                });
+                return total;
+            }
+            return task.days || 0;
+        }
+        
+        // Get display days for a task (shows breakdown sum if available, otherwise task days)
+        function getDisplayDays(task) {
+            if (task.breakdown && task.breakdown.length > 0) {
+                return calculateTotalDays(task);
+            }
+            return task.days || 0;
+        }
+
+        // Count total tasks recursively
+        function countTasks(task) {
+            let count = 1;
+            if (task.breakdown && task.breakdown.length > 0) {
+                task.breakdown.forEach(item => {
+                    count += countTasks(item);
+                });
+            }
+            return count;
+        }
+
+        // Count tasks by status recursively
+        function countTasksByStatus(task, status) {
+            let count = 0;
+            const taskStatus = (task.completion || '').toLowerCase();
+            
+            // Map status names
+            const statusMap = {
+                'pending': ['not started'],
+                'inprogress': ['in progress'],
+                'accomplished': ['completed']
+            };
+            
+            const matchingStatuses = statusMap[status.toLowerCase()] || [];
+            if (matchingStatuses.includes(taskStatus)) {
+                count = 1;
+            }
+            
+            if (task.breakdown && task.breakdown.length > 0) {
+                task.breakdown.forEach(item => {
+                    count += countTasksByStatus(item, status);
+                });
+            }
+            
+            return count;
+        }
+
+        // Render task item recursively
+        function renderTask(task, level = 0, parentId = '') {
+            const taskId = parentId ? `${parentId}-${task.title.replace(/\s+/g, '-').toLowerCase()}` : task.title.replace(/\s+/g, '-').toLowerCase();
+            const hasBreakdown = task.breakdown && task.breakdown.length > 0;
+            
+            // Calculate indentation - use fixed classes for better Tailwind support
+            let indentClass = '';
+            if (level > 0) {
+                if (level === 1) {
+                    indentClass = 'ml-3 sm:ml-4';
+                } else if (level === 2) {
+                    indentClass = 'ml-6 sm:ml-8';
+                } else {
+                    indentClass = 'ml-9 sm:ml-12';
+                }
+            }
+            
+            const bgColor = level === 0 ? 'bg-white' : level === 1 ? 'bg-gray-50' : 'bg-gray-100';
+            const borderColor = level === 0 ? 'border-gray-200' : level === 1 ? 'border-gray-300' : 'border-gray-400';
+            
+            let html = `
+                <div class="${indentClass} task-item level-${level} ${bgColor} rounded-md border ${borderColor} shadow-sm hover:shadow transition-all duration-200" data-task-id="${taskId}">
+                    <div class="p-2.5 sm:p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 ${hasBreakdown ? 'cursor-pointer' : ''} task-header" data-expanded="false" data-task-id="${taskId}">
+                        <div class="flex items-center gap-2 sm:gap-2.5 flex-1 min-w-0">
+                            ${hasBreakdown ? `
+                                <button class="expand-btn flex-shrink-0 w-6 h-6 sm:w-6 sm:h-6 flex items-center justify-center rounded hover:bg-indigo-50 transition-colors group touch-manipulation" data-task-id="${taskId}">
+                                    <svg class="chevron-transition w-4 h-4 text-gray-600 group-hover:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </button>
+                            ` : '<div class="w-6 flex-shrink-0"></div>'}
+                            <div class="flex-1 min-w-0">
+                                <h3 class="font-semibold text-gray-900 ${level === 0 ? 'text-sm sm:text-base' : level === 1 ? 'text-sm' : 'text-xs sm:text-sm'} leading-tight break-words">${task.title}</h3>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between sm:justify-end gap-2 sm:gap-2.5 sm:ml-4 flex-shrink-0">
+                            ${getStatusBadge(task.completion)}
+                            <div class="flex items-center gap-2 sm:gap-2.5">
+                                ${getDisplayDays(task) > 0 ? `
+                                    <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 min-h-[2.5rem] rounded-lg border border-purple-200">
+                                        
+                                        <div class="text-right">
+                                            <p class="text-xs text-purple-700 font-bold leading-none">${getDisplayDays(task)}</p>
+                                            <p class="text-[10px] text-purple-600 leading-none mt-0.5">${getDisplayDays(task) === 1 ? 'day' : 'days'}</p>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                                <div class="flex items-center gap-1.5 px-2.5 py-1.5 min-h-[2.5rem] rounded-lg border border-indigo-200">
+                                    <p class="font-bold text-indigo-700 ${level === 0 ? 'text-sm sm:text-base' : 'text-xs sm:text-sm'} leading-tight whitespace-nowrap">${formatPrice(getDisplayPrice(task))}</p>
+                                    ${getDisplayDays(task) > 0 ? `
+                                        <div class="flex items-center gap-1 ml-1 sm:hidden">
+
+                                            <p class="text-[10px] text-purple-600 font-semibold leading-none">${getDisplayDays(task)} ${getDisplayDays(task) === 1 ? 'day' : 'days'}</p>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    ${hasBreakdown ? `
+                        <div class="breakdown-container overflow-hidden border-t ${borderColor}" data-task-id="${taskId}">
+                            <div class="px-2.5 sm:px-3 space-y-2">
+                                ${task.breakdown.map(item => renderTask(item, level + 1, taskId)).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            return html;
+        }
+
+        // Calculate and update total price
+        function updateTotalPrice() {
+            let totalPrice = 0;
+            
+            tasks.forEach(task => {
+                totalPrice += calculateTotalPrice(task);
+            });
+            
+            // Add maintenance cost if one year maintenance is selected
+            const maintenanceToggle = document.getElementById('maintenanceToggle');
+            if (maintenanceToggle && maintenanceToggle.checked) {
+                totalPrice += 50000; // Add 50k for one year maintenance
+            }
+            
+            document.getElementById('totalPrice').textContent = formatPrice(totalPrice);
+        }
+
+        // Calculate and update total days
+        function updateTotalDays() {
+            let totalDays = 0;
+            
+            tasks.forEach(task => {
+                totalDays += calculateTotalDays(task);
+            });
+            
+            document.getElementById('totalDays').textContent = totalDays;
+        }
+
+        // Initialize the app
+        function init() {
+            const container = document.getElementById('tasksContainer');
+            
+            // Render all tasks
+            tasks.forEach(task => {
+                container.innerHTML += renderTask(task, 0);
+            });
+
+            // Calculate and display totals
+            let totalTaskCount = 0;
+            let pendingCount = 0;
+            let inProgressCount = 0;
+            let accomplishedCount = 0;
+            
+            tasks.forEach(task => {
+                totalTaskCount += countTasks(task);
+                pendingCount += countTasksByStatus(task, 'pending');
+                inProgressCount += countTasksByStatus(task, 'inprogress');
+                accomplishedCount += countTasksByStatus(task, 'accomplished');
+            });
+            
+            updateTotalPrice();
+            updateTotalDays();
+            document.getElementById('totalTasks').textContent = totalTaskCount;
+            document.getElementById('pendingTasks').textContent = pendingCount;
+            document.getElementById('inProgressTasks').textContent = inProgressCount;
+            document.getElementById('accomplishedTasks').textContent = accomplishedCount;
+
+            // Add expand/collapse functionality
+            document.querySelectorAll('.expand-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const taskId = btn.getAttribute('data-task-id');
+                    const container = document.querySelector(`.breakdown-container[data-task-id="${taskId}"]`);
+                    const header = document.querySelector(`.task-header[data-task-id="${taskId}"]`);
+                    const chevron = btn.querySelector('svg');
+                    const isExpanded = header.getAttribute('data-expanded') === 'true';
+                    
+                    if (isExpanded) {
+                        // Collapse
+                        container.classList.remove('expanded');
+                        chevron.classList.remove('chevron-expanded');
+                        header.setAttribute('data-expanded', 'false');
+                    } else {
+                        // Expand
+                        container.classList.add('expanded');
+                        chevron.classList.add('chevron-expanded');
+                        header.setAttribute('data-expanded', 'true');
+                    }
+                });
+            });
+
+            // Make entire header clickable for expand/collapse
+            document.querySelectorAll('.task-header').forEach(header => {
+                const taskId = header.getAttribute('data-task-id');
+                const expandBtn = document.querySelector(`.expand-btn[data-task-id="${taskId}"]`);
+                if (expandBtn) {
+                    header.addEventListener('click', () => {
+                        expandBtn.click();
+                    });
+                }
+            });
+
+            // Add maintenance toggle functionality
+            const maintenanceToggle = document.getElementById('maintenanceToggle');
+            const maintenanceLabel = document.getElementById('maintenanceLabel');
+            
+            if (maintenanceToggle && maintenanceLabel) {
+                maintenanceToggle.addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        maintenanceLabel.textContent = 'One Year Full Maintenance';
+                    } else {
+                        maintenanceLabel.textContent = 'One Time';
+                    }
+                    updateTotalPrice();
+                });
+            }
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>
+
