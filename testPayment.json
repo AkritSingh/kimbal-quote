@@ -1,0 +1,30 @@
+[
+{
+    "id": "inv-001",
+    "title": "Project Kick-off Invoice",
+    "description": "Advance payment for the project. It will be credited in full against the first invoice that is raised.",
+    "active": true,
+    "status": "due",
+    "date": "2025-11-12",
+    "tasks": [
+        {
+            "id": "task-001",
+            "title": "Advance payment",
+            "description": "Advance payment for the project. It will be credited in full against the first invoice that is raised.",
+            "amount": 20000
+        }
+    ]
+},
+{
+    "id": "inv-002",
+    "title": "Milestone 1 Completion",
+    "active": false,
+    "status": "Not generated"
+},
+{
+    "id": "inv-003",
+    "title": "Milestone 2 Completion",
+    "active": false,
+    "status": "Not generated"
+}
+]
