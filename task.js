@@ -33,12 +33,12 @@ tasks = [
                 days: 3,
                 completion: 'not started',
             },
-            {
-                title: "Dynamic Page for Resource",
-                price: 10000,
-                days: 5,
-                completion: 'not started',
-            }
+            // {
+            //     title: "Dynamic Page for Resource",
+            //     price: 10000,
+            //     days: 5,
+            //     completion: 'not started',
+            // }
         ]
     },
     {
