@@ -4,6 +4,20 @@
     "developerEmail": "akritsingha.official@gmail.com",
     "developerPhone": "+91 6295570331",
     "invoices": [
-        
+        {
+            "id": "inv-001",
+            "title": "Project Kick-off Invoice",
+            "description": "Advance payment for the project. It will be 30% of total proposed amount.",
+            "active": true,
+            "status": "due",
+            "date": "2025-11-12",
+            "tasks": [
+                {
+                    "id": "task-001",
+                    "title": "Advance payment",
+                    "amount": 25800
+                }
+            ]
+        }
     ]
 }
