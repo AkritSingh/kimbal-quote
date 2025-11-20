@@ -11,13 +11,13 @@ tasks = [
                         title: "Page Creation",
                         price: 4000,
                         days: 2,
-                        completion: 'not started',
+                        completion: 'completed',
                     },
                     {
                         title: "Easy CMS-level publishing",
                         price: 2000,
                         days: 2,
-                        completion: 'not started',
+                        completion: 'completed',
                     },
                     {
                         title: "Update navigation",

@@ -9,7 +9,7 @@
             "title": "Project Kick-off Invoice",
             "description": "Advance payment for the project. It will be 30% of total proposed amount.",
             "active": true,
-            "status": "due",
+            "status": "paid",
             "date": "2025-11-12",
             "tasks": [
                 {
