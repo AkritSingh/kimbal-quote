@@ -1,11 +1,11 @@
 tasks = [
     {
         title: "UI/UX Design",
-        completion: 'not started',
+        completion: 'in progress',
         breakdown: [
             {
                 title: "What,s New Page Creation",
-                completion: 'not started',
+                completion: 'in progress',
                 breakdown: [
                     {
                         title: "Page Creation",
@@ -28,10 +28,28 @@ tasks = [
                 ]
             },
             {
+                title: "Resource Page Creation",
+                completion: 'in progress',
+                breakdown: [
+                    {
+                        title: "Page Creation",
+                        price: 0,
+                        days: 5,
+                        completion: 'in progress',
+                    }
+                ]
+            },
+            {
+                title: "Job Apply Section Creation",
+                completion: 'not started',
+                days: 3,
+                price: 10000,
+            },
+            {
                 title: "Content Updates",
                 price: 5000,
                 days: 3,
-                completion: 'not started',
+                completion: 'completed',
             },
             // {
             //     title: "Dynamic Page for Resource",
@@ -75,7 +93,7 @@ tasks = [
                 days: 1,
                 completion: 'not started',
             }
-            
+
         ]
     },
     {
@@ -128,7 +146,7 @@ tasks = [
     },
     {
         title: "Performance",
-        completion : "not started",
+        completion: "not started",
         breakdown: [
             {
                 title: "Extra js removal",
@@ -142,7 +160,7 @@ tasks = [
                 days: 1,
                 completion: 'not started',
             },
-            
+
             {
                 title: "Minify JavaScript",
                 price: 2000,
@@ -292,7 +310,7 @@ tasks = [
             }
         ]
     },
-    
-    
+
+
 ]
 
