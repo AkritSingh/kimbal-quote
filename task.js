@@ -39,12 +39,12 @@ tasks = [
                     }
                 ]
             },
-            {
-                title: "Job Apply Section Creation",
-                completion: 'not started',
-                days: 3,
-                price: 10000,
-            },
+            // {
+            //     title: "Job Apply Section Creation",
+            //     completion: 'not started',
+            //     days: 3,
+            //     price: 10000,
+            // },
             {
                 title: "Content Updates",
                 price: 5000,
@@ -61,37 +61,39 @@ tasks = [
     },
     {
         title: "QC Testing (Before)",
-        completion: 'not started',
+        completion: 'completed',
         breakdown: [
             {
                 title: "Linking Validation",
                 price: 3000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Performance Testing",
                 price: 1500,
                 days: 1,
-                completion: 'not started',
+                link: './performance.html',
+                completion: 'completed',
             },
             {
-                title: "Functionality Testing",
+                title: "SEO Testing",
                 price: 1500,
                 days: 1,
-                completion: 'not started',
+                link: './seo.html',
+                completion: 'completed',
             },
             {
                 title: "User Experience Testing",
                 price: 1500,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Device Compatibility Testing",
                 price: 1500,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             }
 
         ]

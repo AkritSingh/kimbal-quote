@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrome Trace Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .controls {
+            padding: 1.5rem 2rem;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .file-input-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .filter-group select {
+            padding: 0.75rem 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .stats {
+            padding: 1rem 2rem;
+            background: #fff;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            max-height: calc(100vh - 400px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #e9ecef;
+            transition: all 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+            transform: scale(1.01);
+        }
+
+        td {
+            padding: 0.875rem 1rem;
+            vertical-align: top;
+        }
+
+        .event-name {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: #667eea;
+            color: white;
+        }
+
+        .args-cell {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #6c757d;
+        }
+
+        .empty-state svg {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e9ecef;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Chrome Trace Viewer</h1>
+            <p>Analyze and explore Chrome performance traces</p>
+        </div>
+
+        <div class="controls">
+            <div class="file-input-wrapper">
+                <input type="file" id="fileInput" accept=".json" />
+                <label for="fileInput" class="file-input-label">
+                    📁 Load Trace File
+                </label>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Search by name, category, or phase..." />
+            </div>
+
+            <div class="filter-group">
+                <select id="categoryFilter">
+                    <option value="">All Categories</option>
+                </select>
+                <select id="phaseFilter">
+                    <option value="">All Phases</option>
+                </select>
+                <select id="pidFilter">
+                    <option value="">All Processes</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="stats" id="stats" style="display: none;">
+            <div class="stat-item">
+                <span class="stat-label">Total Events</span>
+                <span class="stat-value" id="totalEvents">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Unique Categories</span>
+                <span class="stat-value" id="uniqueCategories">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Processes</span>
+                <span class="stat-value" id="uniqueProcesses">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Duration</span>
+                <span class="stat-value" id="totalDuration">0 ms</span>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <div class="empty-state" id="emptyState">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <h2>No trace file loaded</h2>
+                <p>Click "Load Trace File" to get started</p>
+            </div>
+
+            <div class="loading" id="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading trace data...</p>
+            </div>
+
+            <table id="traceTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Phase</th>
+                        <th>PID</th>
+                        <th>TID</th>
+                        <th>Timestamp (μs)</th>
+                        <th>Duration (μs)</th>
+                        <th>Arguments</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let traceData = null;
+        let filteredData = [];
+
+        const fileInput = document.getElementById('fileInput');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const phaseFilter = document.getElementById('phaseFilter');
+        const pidFilter = document.getElementById('pidFilter');
+        const tableBody = document.getElementById('tableBody');
+        const emptyState = document.getElementById('emptyState');
+        const loading = document.getElementById('loading');
+        const traceTable = document.getElementById('traceTable');
+        const stats = document.getElementById('stats');
+
+        fileInput.addEventListener('change', handleFileSelect);
+        searchInput.addEventListener('input', applyFilters);
+        categoryFilter.addEventListener('change', applyFilters);
+        phaseFilter.addEventListener('change', applyFilters);
+        pidFilter.addEventListener('change', applyFilters);
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            emptyState.style.display = 'none';
+            loading.style.display = 'block';
+            traceTable.style.display = 'none';
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    traceData = data.traceEvents || [];
+                    populateFilters();
+                    updateStats();
+                    applyFilters();
+                    loading.style.display = 'none';
+                    traceTable.style.display = 'table';
+                    stats.style.display = 'flex';
+                } catch (error) {
+                    alert('Error parsing JSON file: ' + error.message);
+                    loading.style.display = 'none';
+                    emptyState.style.display = 'block';
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function populateFilters() {
+            const categories = new Set();
+            const phases = new Set();
+            const pids = new Set();
+
+            traceData.forEach(event => {
+                if (event.cat) categories.add(event.cat);
+                if (event.ph) phases.add(event.ph);
+                if (event.pid !== undefined) pids.add(event.pid);
+            });
+
+            populateSelect(categoryFilter, Array.from(categories).sort());
+            populateSelect(phaseFilter, Array.from(phases).sort());
+            populateSelect(pidFilter, Array.from(pids).sort((a, b) => a - b));
+        }
+
+        function populateSelect(selectElement, options) {
+            const currentValue = selectElement.value;
+            selectElement.innerHTML = '<option value="">All ' + selectElement.id.replace('Filter', '') + 's</option>';
+            options.forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.value = option;
+                optionElement.textContent = option;
+                selectElement.appendChild(optionElement);
+            });
+            selectElement.value = currentValue;
+        }
+
+        function updateStats() {
+            const categories = new Set(traceData.map(e => e.cat).filter(Boolean));
+            const pids = new Set(traceData.map(e => e.pid).filter(p => p !== undefined));
+
+            let minTs = Infinity;
+            let maxTs = -Infinity;
+
+            traceData.forEach(event => {
+                if (event.ts !== undefined) {
+                    minTs = Math.min(minTs, event.ts);
+                    maxTs = Math.max(maxTs, event.ts + (event.dur || 0));
+                }
+            });
+
+            const duration = maxTs - minTs;
+
+            document.getElementById('totalEvents').textContent = traceData.length.toLocaleString();
+            document.getElementById('uniqueCategories').textContent = categories.size;
+            document.getElementById('uniqueProcesses').textContent = pids.size;
+            document.getElementById('totalDuration').textContent = (duration / 1000).toFixed(2) + ' ms';
+        }
+
+        function applyFilters() {
+            if (!traceData) return;
+
+            const searchTerm = searchInput.value.toLowerCase();
+            const categoryValue = categoryFilter.value;
+            const phaseValue = phaseFilter.value;
+            const pidValue = pidFilter.value;
+
+            filteredData = traceData.filter(event => {
+                const matchesSearch = !searchTerm ||
+                    (event.name && event.name.toLowerCase().includes(searchTerm)) ||
+                    (event.cat && event.cat.toLowerCase().includes(searchTerm)) ||
+                    (event.ph && event.ph.toLowerCase().includes(searchTerm));
+
+                const matchesCategory = !categoryValue || event.cat === categoryValue;
+                const matchesPhase = !phaseValue || event.ph === phaseValue;
+                const matchesPid = !pidValue || event.pid == pidValue;
+
+                return matchesSearch && matchesCategory && matchesPhase && matchesPid;
+            });
+
+            renderTable();
+        }
+
+        function renderTable() {
+            tableBody.innerHTML = '';
+
+            // Limit to first 1000 rows for performance
+            const displayData = filteredData.slice(0, 1000);
+
+            displayData.forEach(event => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td class="event-name">${escapeHtml(event.name || '-')}</td>
+                    <td><span class="category-badge">${escapeHtml(event.cat || '-')}</span></td>
+                    <td><span class="phase-badge">${escapeHtml(event.ph || '-')}</span></td>
+                    <td>${event.pid !== undefined ? event.pid : '-'}</td>
+                    <td>${event.tid !== undefined ? event.tid : '-'}</td>
+                    <td>${event.ts !== undefined ? event.ts.toLocaleString() : '-'}</td>
+                    <td>${event.dur !== undefined ? event.dur.toLocaleString() : '-'}</td>
+                    <td class="args-cell" title="${escapeHtml(JSON.stringify(event.args || {}))}">${escapeHtml(JSON.stringify(event.args || {}))}</td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+
+            if (filteredData.length > 1000) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="8" style="text-align: center; padding: 1rem; color: #6c757d; font-style: italic;">Showing first 1,000 of ${filteredData.length.toLocaleString()} events. Use filters to narrow results.</td>`;
+                tableBody.appendChild(row);
+            }
+
+            if (filteredData.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="8" style="text-align: center; padding: 2rem; color: #6c757d;">No events match your filters</td>`;
+                tableBody.appendChild(row);
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+
+</html>
