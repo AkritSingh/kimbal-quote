@@ -73,14 +73,14 @@ tasks = [
                 title: "Performance Testing",
                 price: 1500,
                 days: 1,
-                link: './performance.html',
+                link: './Reports/performance.html',
                 completion: 'completed',
             },
             {
                 title: "SEO Testing",
                 price: 1500,
                 days: 1,
-                link: './seo.html',
+                link: './Reports/seo.html',
                 completion: 'completed',
             },
             {
