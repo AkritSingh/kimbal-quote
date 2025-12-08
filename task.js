@@ -5,7 +5,7 @@ tasks = [
         breakdown: [
             {
                 title: "What,s New Page Creation",
-                completion: 'in progress',
+                completion: 'completed',
                 breakdown: [
                     {
                         title: "Page Creation",
@@ -23,7 +23,7 @@ tasks = [
                         title: "Update navigation",
                         price: 1000,
                         days: 1,
-                        completion: 'not started',
+                        completion: 'completed',
                     }
                 ]
             },
@@ -39,12 +39,30 @@ tasks = [
                     }
                 ]
             },
-            // {
-            //     title: "Job Apply Section Creation",
-            //     completion: 'not started',
-            //     days: 3,
-            //     price: 10000,
-            // },
+            {
+                title: "Career Page Changes",
+                completion: 'in progress',
+                breakdown: [
+                    {
+                        title: "No Post UI Updation",
+                        price: 2000,
+                        days: 1,
+                        completion: 'completed',
+                    },
+                    {
+                        title: "Archive JOBs without 404",
+                        price: 3000,
+                        days: 1,
+                        completion: 'in progress',
+                    },
+                    {
+                        title: "Archive JOBs UI Handling",
+                        price: 3000,
+                        days: 1,
+                        completion: 'in progress',
+                    }
+                ]
+            },
             {
                 title: "Content Updates",
                 price: 5000,
@@ -106,19 +124,19 @@ tasks = [
                 title: "Plugin Version Update",
                 price: 5000,
                 days: 2,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Plugin Errors Fix",
                 price: 3000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Unused Plugin Remove",
                 price: 2000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Plugin Compatibility Check",
