@@ -41,7 +41,7 @@ tasks = [
             },
             {
                 title: "Career Page Changes",
-                completion: 'in progress',
+                completion: 'completed',
                 breakdown: [
                     {
                         title: "No Post UI Updation",
@@ -53,13 +53,13 @@ tasks = [
                         title: "Archive JOBs without 404",
                         price: 3000,
                         days: 1,
-                        completion: 'in progress',
+                        completion: 'completed',
                     },
                     {
                         title: "Archive JOBs UI Handling",
                         price: 3000,
                         days: 1,
-                        completion: 'in progress',
+                        completion: 'completed',
                     }
                 ]
             },
