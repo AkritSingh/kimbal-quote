@@ -118,7 +118,7 @@ tasks = [
     },
     {
         title: "Versioning",
-        completion: 'not started',
+        completion: 'completed',
         breakdown: [
             {
                 title: "Plugin Version Update",
@@ -142,25 +142,25 @@ tasks = [
                 title: "Plugin Compatibility Check",
                 price: 2000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Wordpress Version Update",
                 price: 2000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "PHP Version Update",
                 price: 4000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Perform Stability Check",
                 price: 2000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             }
         ]
     },
