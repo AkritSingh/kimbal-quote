@@ -29,13 +29,13 @@ tasks = [
             },
             {
                 title: "Resource Page Creation",
-                completion: 'in progress',
+                completion: 'completed',
                 breakdown: [
                     {
                         title: "Page Creation",
                         price: 0,
                         days: 5,
-                        completion: 'in progress',
+                        completion: 'completed',
                     }
                 ]
             },
