@@ -1,7 +1,7 @@
 tasks = [
     {
         title: "UI/UX Design",
-        completion: 'in progress',
+        completion: 'completed',
         breakdown: [
             {
                 title: "What,s New Page Creation",
