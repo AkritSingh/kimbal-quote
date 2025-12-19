@@ -165,6 +165,37 @@ tasks = [
         ]
     },
     {
+        title: "Custom Plugin & Theme Built",
+        completion: "not started",
+        breakdown: [
+            {
+                title: "Modular Blocks Core Plugin Creation",
+                price: 10000,
+                days: 7,
+                completion: 'not started',
+            },
+            {
+                title: "Custom Theme Creation",
+                price: 10000,
+                days: 7,
+                completion: 'not started',
+            },
+
+            {
+                title: "Asset Manager Plugin Creation",
+                price: 10000,
+                days: 7,
+                completion: 'not started',
+            },
+            {
+                title: "Page Migration",
+                price: 30000,
+                days: 7,
+                completion: 'not started',
+            },
+        ]
+    },
+    {
         title: "Performance",
         completion: "not started",
         breakdown: [

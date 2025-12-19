@@ -225,6 +225,8 @@
                                 <p class="text-xl sm:text-2xl font-bold text-indigo-700 leading-tight" id="totalPrice">
                                     ₹0</p>
                             </div>
+                            <p class="text-xs text-indigo-500 mt-1 font-medium">Remaining: <span
+                                    id="remainingPrice">₹0</span></p>
                         </div>
                         <div class="px-3 py-2 sm:px-4 sm:py-2.5">
                             <p class="text-xs text-purple-600 mb-1 leading-none">Estimated Duration</p>
@@ -239,6 +241,8 @@
                                 </p>
                                 <span class="text-xs sm:text-sm text-purple-600 font-semibold">days</span>
                             </div>
+                            <p class="text-xs text-purple-500 mt-1 font-medium">Remaining: <span id="remainingDays">0
+                                    days</span></p>
                         </div>
                     </div>
                 </div>
@@ -275,6 +279,37 @@
 
     <script src="task.js"></script>
     <script>
+        // Global variable for paid amount
+        let paidAmount = 0;
+
+        // Valid paid statuses
+        const PAID_STATUSES = ['paid', 'completed', 'received'];
+
+        // Fetch payments data
+        async function fetchPayments() {
+            try {
+                const response = await fetch('payments.json');
+                const data = await response.json();
+
+                paidAmount = 0;
+                if (data.invoices) {
+                    data.invoices.forEach(inv => {
+                        if (PAID_STATUSES.includes((inv.status || '').toLowerCase()) && inv.active !== false) {
+                            // Sum up tasks if available
+                            if (inv.tasks) {
+                                inv.tasks.forEach(t => {
+                                    paidAmount += t.amount || 0;
+                                });
+                            }
+                        }
+                    });
+                }
+                updateTotalPrice(); // Update UI with new paid amount
+            } catch (err) {
+                console.error('Error fetching payments:', err);
+            }
+        }
+
         // Format price to Indian Rupee
         function formatPrice(price) {
             return new Intl.NumberFormat('en-IN', {
@@ -372,6 +407,20 @@
                 return calculateTotalDays(task);
             }
             return task.days || 0;
+        }
+
+        // Calculate completed days recursively
+        function calculateCompletedDays(task) {
+            if (task.breakdown && task.breakdown.length > 0) {
+                let total = 0;
+                task.breakdown.forEach(item => {
+                    total += calculateCompletedDays(item);
+                });
+                return total;
+            }
+            // Check if task is completed
+            const status = (task.completion || '').toLowerCase();
+            return status === 'completed' ? (task.days || 0) : 0;
         }
 
         // Count total tasks recursively
@@ -501,21 +550,40 @@
             }
 
             document.getElementById('totalPrice').textContent = formatPrice(totalPrice);
+
+            // Update Remaining Price
+            const remaining = Math.max(0, totalPrice - paidAmount);
+            const remainingEl = document.getElementById('remainingPrice');
+            if (remainingEl) {
+                remainingEl.textContent = formatPrice(remaining);
+            }
         }
 
         // Calculate and update total days
         function updateTotalDays() {
             let totalDays = 0;
+            let completedDays = 0;
 
             tasks.forEach(task => {
                 totalDays += calculateTotalDays(task);
+                completedDays += calculateCompletedDays(task);
             });
 
             document.getElementById('totalDays').textContent = totalDays;
+
+            // Update Remaining Days
+            const remainingDays = Math.max(0, totalDays - completedDays);
+            const remainingDaysEl = document.getElementById('remainingDays');
+            if (remainingDaysEl) {
+                remainingDaysEl.textContent = remainingDays + (remainingDays === 1 ? ' day' : ' days');
+            }
         }
 
         // Initialize the app
         function init() {
+            // Fetch payments data
+            fetchPayments();
+
             const container = document.getElementById('tasksContainer');
 
             // Render all tasks
