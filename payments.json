@@ -24,7 +24,7 @@
             "title": "Second Progress Payment",
             "description": "First milestone payment (30% of remaining amount).",
             "active": true,
-            "status": "pending",
+            "status": "paid",
             "date": "",
             "tasks": [
                 {
