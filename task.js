@@ -196,6 +196,18 @@ tasks = [
         ]
     },
     {
+        title: "Security Fixes",
+        completion: "in progress",
+        breakdown: [
+            {
+                title: "Api Privatization",
+                price: 5000,
+                days: 3,
+                completion: 'in progress',
+            }
+        ]
+    },
+    {
         title: "Performance",
         completion: "not started",
         breakdown: [
