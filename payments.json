@@ -45,7 +45,7 @@
                 {
                     "id": "task-003",
                     "title": "Milestone Payment 2",
-                    "amount": 38460
+                    "amount": 47700
                 }
             ]
         },
@@ -60,7 +60,7 @@
                 {
                     "id": "task-004",
                     "title": "Project Completion",
-                    "amount": 51280
+                    "amount": 47040
                 }
             ]
         }
