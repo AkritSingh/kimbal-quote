@@ -172,13 +172,13 @@ tasks = [
                 title: "Modular Blocks Core Plugin Creation",
                 price: 10000,
                 days: 7,
-                completion: 'in progress',
+                completion: 'completed',
             },
             {
                 title: "Custom Theme Creation",
                 price: 10000,
                 days: 7,
-                completion: 'not started',
+                completion: 'in progress',
             },
 
             {
