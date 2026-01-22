@@ -197,13 +197,13 @@ tasks = [
     },
     {
         title: "Security Fixes",
-        completion: "in progress",
+        completion: "completed",
         breakdown: [
             {
                 title: "Api Privatization",
                 price: 5000,
                 days: 3,
-                completion: 'in progress',
+                completion: 'completed',
             }
         ]
     },
