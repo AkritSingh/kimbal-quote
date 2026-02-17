@@ -166,32 +166,25 @@ tasks = [
     },
     {
         title: "Custom Plugin & Theme Built",
-        completion: "in progress",
+        completion: "completed",
         breakdown: [
             {
                 title: "Modular Blocks Core Plugin Creation",
-                price: 10000,
+                price: 20000,
                 days: 7,
                 completion: 'completed',
             },
             {
                 title: "Custom Theme Creation",
-                price: 10000,
-                days: 7,
-                completion: 'in progress',
-            },
-
-            {
-                title: "Asset Manager Plugin Creation",
-                price: 10000,
-                days: 7,
-                completion: 'not started',
-            },
-            {
-                title: "Page Migration",
                 price: 30000,
                 days: 7,
-                completion: 'not started',
+                completion: 'completed',
+            },
+            {
+                title: "Home Page Migration",
+                price: 10000,
+                days: 7,
+                completion: 'completed',
             },
         ]
     },
@@ -209,68 +202,68 @@ tasks = [
     },
     {
         title: "Performance",
-        completion: "not started",
+        completion: "completed",
         breakdown: [
             {
                 title: "Extra js removal",
                 price: 2000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Minify CSS",
                 price: 2000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
 
             {
                 title: "Minify JavaScript",
                 price: 2000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Handle Animation Smoothness",
                 price: 2000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Lazy-load third-party resources",
                 price: 4000,
                 days: 2,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Defer offscreen images",
                 price: 3000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Fix resource blocking",
                 price: 2000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Minimize main-thread work",
                 price: 2000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Image Optimization",
                 price: 3000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Additional Code Optimization.",
                 price: 2000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
 
 
@@ -279,77 +272,77 @@ tasks = [
     },
     {
         title: "On-Page SEO Optimization",
-        completion: 'not started',
+        completion: 'completed',
         breakdown: [
             {
                 title: "Best Practices",
                 price: 5000,
                 days: 2,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Improve Web Vitals",
                 price: 2000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Keywords relevancy check",
                 price: 1000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
         ]
     },
     {
         title: "QC Testing (After)",
-        completion: 'not started',
+        completion: 'completed',
         breakdown: [
             {
                 title: "Linking Validation",
                 price: 2000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Performance Testing",
                 price: 2000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Functionality Testing",
                 price: 2000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "User Experience Testing",
                 price: 1000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Device Compatibility Testing",
                 price: 1000,
                 days: 1,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "Final Review",
-                completion: 'not started',
+                completion: 'completed',
                 breakdown: [
                     {
                         title: "Overall Performance Comparison",
                         price: 1000,
                         days: 1,
-                        completion: 'not started',
+                        completion: 'completed',
                     },
                     {
                         title: "Overall User Experience Comparison",
                         price: 2000,
                         days: 1,
-                        completion: 'not started',
+                        completion: 'completed',
                     },
                 ]
             }
