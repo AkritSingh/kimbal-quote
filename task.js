@@ -350,21 +350,10 @@ tasks = [
     },
     {
         title: "Documentation",
-        completion: 'not started',
-        breakdown: [
-            {
-                title: "Make easily accessable",
-                price: 1000,
-                days: 1,
-                completion: 'not started',
-            },
-            {
-                title: "User friendly UI",
-                price: 1000,
-                days: 1,
-                completion: 'not started',
-            }
-        ]
+        completion: 'completed',
+        price: 2000,
+        days: 2,
+        link: 'https://docs.google.com/document/d/10iY4Z0YUxgIXr3hzdlCqBMu0ZNOikqfHrzCq12fcfPE/edit?usp=sharing',
     },
 
 
