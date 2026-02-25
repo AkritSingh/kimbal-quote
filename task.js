@@ -1,361 +1,95 @@
 tasks = [
     {
-        title: "UI/UX Design",
-        completion: 'completed',
-        breakdown: [
-            {
-                title: "What,s New Page Creation",
-                completion: 'completed',
-                breakdown: [
-                    {
-                        title: "Page Creation",
-                        price: 4000,
-                        days: 2,
-                        completion: 'completed',
-                    },
-                    {
-                        title: "Easy CMS-level publishing",
-                        price: 2000,
-                        days: 2,
-                        completion: 'completed',
-                    },
-                    {
-                        title: "Update navigation",
-                        price: 1000,
-                        days: 1,
-                        completion: 'completed',
-                    }
-                ]
-            },
-            {
-                title: "Resource Page Creation",
-                completion: 'completed',
-                breakdown: [
-                    {
-                        title: "Page Creation",
-                        price: 0,
-                        days: 5,
-                        completion: 'completed',
-                    }
-                ]
-            },
-            {
-                title: "Career Page Changes",
-                completion: 'completed',
-                breakdown: [
-                    {
-                        title: "No Post UI Updation",
-                        price: 2000,
-                        days: 1,
-                        completion: 'completed',
-                    },
-                    {
-                        title: "Archive JOBs without 404",
-                        price: 3000,
-                        days: 1,
-                        completion: 'completed',
-                    },
-                    {
-                        title: "Archive JOBs UI Handling",
-                        price: 3000,
-                        days: 1,
-                        completion: 'completed',
-                    }
-                ]
-            },
-            {
-                title: "Content Updates",
-                price: 5000,
-                days: 3,
-                completion: 'completed',
-            },
-            // {
-            //     title: "Dynamic Page for Resource",
-            //     price: 10000,
-            //     days: 5,
-            //     completion: 'not started',
-            // }
-        ]
-    },
-    {
-        title: "QC Testing (Before)",
-        completion: 'completed',
-        breakdown: [
-            {
-                title: "Linking Validation",
-                price: 3000,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "Performance Testing",
-                price: 1500,
-                days: 1,
-                link: './Reports/performance.html',
-                completion: 'completed',
-            },
-            {
-                title: "SEO Testing",
-                price: 1500,
-                days: 1,
-                link: './Reports/seo.html',
-                completion: 'completed',
-            },
-            {
-                title: "User Experience Testing",
-                price: 1500,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "Device Compatibility Testing",
-                price: 1500,
-                days: 1,
-                completion: 'completed',
-            }
-
-        ]
-    },
-    {
-        title: "Versioning",
-        completion: 'completed',
-        breakdown: [
-            {
-                title: "Plugin Version Update",
-                price: 5000,
-                days: 2,
-                completion: 'completed',
-            },
-            {
-                title: "Plugin Errors Fix",
-                price: 3000,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "Unused Plugin Remove",
-                price: 2000,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "Plugin Compatibility Check",
-                price: 2000,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "Wordpress Version Update",
-                price: 2000,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "PHP Version Update",
-                price: 4000,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "Perform Stability Check",
-                price: 2000,
-                days: 1,
-                completion: 'completed',
-            }
-        ]
-    },
-    {
-        title: "Custom Plugin & Theme Built",
-        completion: "completed",
-        breakdown: [
-            {
-                title: "Modular Blocks Core Plugin Creation",
-                price: 20000,
-                days: 7,
-                completion: 'completed',
-            },
-            {
-                title: "Custom Theme Creation",
-                price: 30000,
-                days: 7,
-                completion: 'completed',
-            },
-            {
-                title: "Home Page Migration",
-                price: 10000,
-                days: 7,
-                completion: 'completed',
-            },
-        ]
-    },
-    {
         title: "Security Fixes",
-        completion: "completed",
+        completion: 'not started',
         breakdown: [
             {
-                title: "Api Privatization",
+                title: "Exposed phpinfo() page (Information Disclosure)",
+                completion: 'not started',
+                price: 5000,
+                days: 2,
+            },
+            {
+                title: "Deprecated SSH 8.0 on port 2222",
+                completion: 'not started',
+                price: 5000,
+                days: 2,
+            },
+            {
+                title: "Missing anti-clickjacking headers",
+                completion: 'not started',
+                price: 5000,
+                days: 2,
+            },
+            {
+                title: "Server banner discloses nginx/1.29.4",
+                price: 5000,
+                days: 2,
+                completion: 'not started',
+            },
+            {
+                title: "WordPress version disclosure via wp-links-opml.php",
+                price: 5000,
+                days: 2,
+                completion: 'not started',
+            },
+            {
+                title: "Add reCAPTCHA script, which user should check after submit. (Google reCAPTCHA v2)",
+                price: 5000,
+                days: 2,
+                completion: 'not started',
+            },
+            {
+                title: "Add Limitor of 5 times post comment in a day.",
                 price: 5000,
                 days: 3,
-                completion: 'completed',
+                completion: 'not started',
+            },
+            {
+                title: "Detect comment with some blacklisted keywords and delete them automatically.",
+                price: 1000,
+                days: 1,
+                completion: 'not started',
             }
+
         ]
     },
     {
-        title: "Performance",
-        completion: "completed",
+        title: "Page Creation",
+        completion: 'not started',
         breakdown: [
             {
-                title: "Extra js removal",
-                price: 2000,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "Minify CSS",
-                price: 2000,
-                days: 1,
-                completion: 'completed',
-            },
-
-            {
-                title: "Minify JavaScript",
-                price: 2000,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "Handle Animation Smoothness",
-                price: 2000,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "Lazy-load third-party resources",
+                title: "https://kimbal.io/smart-meters/",
                 price: 4000,
-                days: 2,
-                completion: 'completed',
+                days: 4,
+                completion: 'not started',
             },
             {
-                title: "Defer offscreen images",
-                price: 3000,
-                days: 1,
-                completion: 'completed',
+                title: "https://kimbal.io/consumer-mobile-app/",
+                price: 4000,
+                days: 4,
+                completion: 'not started',
             },
             {
-                title: "Fix resource blocking",
-                price: 2000,
-                days: 1,
-                completion: 'completed',
+                title: "https://kimbal.io/careers/",
+                price: 4000,
+                days: 4,
+                completion: 'not started',
             },
             {
-                title: "Minimize main-thread work",
-                price: 2000,
-                days: 1,
-                completion: 'completed',
+                title: "https://kimbal.io/careers/",
+                price: 4000,
+                days: 4,
+                completion: 'not started',
             },
             {
-                title: "Image Optimization",
-                price: 3000,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "Additional Code Optimization.",
-                price: 2000,
-                days: 1,
-                completion: 'completed',
-            },
-
-
-
-        ]
-    },
-    {
-        title: "On-Page SEO Optimization",
-        completion: 'completed',
-        breakdown: [
-            {
-                title: "Best Practices",
-                price: 5000,
-                days: 2,
-                completion: 'completed',
-            },
-            {
-                title: "Improve Web Vitals",
-                price: 2000,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "Keywords relevancy check",
-                price: 1000,
-                days: 1,
-                completion: 'completed',
-            },
-        ]
-    },
-    {
-        title: "QC Testing (After)",
-        completion: 'completed',
-        breakdown: [
-            {
-                title: "Linking Validation",
-                price: 2000,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "Performance Testing",
-                price: 2000,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "Functionality Testing",
-                price: 2000,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "User Experience Testing",
-                price: 1000,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "Device Compatibility Testing",
-                price: 1000,
-                days: 1,
-                completion: 'completed',
-            },
-            {
-                title: "Final Review",
-                completion: 'completed',
-                breakdown: [
-                    {
-                        title: "Overall Performance Comparison",
-                        price: 1000,
-                        days: 1,
-                        completion: 'completed',
-                    },
-                    {
-                        title: "Overall User Experience Comparison",
-                        price: 2000,
-                        days: 1,
-                        completion: 'completed',
-                    },
-                ]
+                title: "https://kimbal.io/contact-us/",
+                price: 4000,
+                days: 4,
+                completion: 'not started',
             }
+
         ]
-    },
-    {
-        title: "Documentation",
-        completion: 'completed',
-        price: 2000,
-        days: 2,
-        link: 'https://docs.google.com/document/d/10iY4Z0YUxgIXr3hzdlCqBMu0ZNOikqfHrzCq12fcfPE/edit?usp=sharing',
-    },
-
-
+    }
 ]
 
