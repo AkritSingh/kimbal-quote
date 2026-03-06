@@ -47,7 +47,7 @@ tasks = [
             },
             {
                 title: "Detect comment with some blacklisted keywords and delete them automatically.",
-                price: 1000,
+                price: 2000,
                 days: 1,
                 completion: 'not started',
             }
@@ -77,7 +77,7 @@ tasks = [
                 completion: 'not started',
             },
             {
-                title: "https://kimbal.io/careers/",
+                title: "https://kimbal.io/meet-the-team/",
                 price: 4000,
                 days: 4,
                 completion: 'not started',
