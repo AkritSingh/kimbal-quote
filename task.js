@@ -96,18 +96,6 @@ tasks = [
         completion: 'not started',
         breakdown: [
             {
-                title: "Robot.txt",
-                price: 5000,
-                days: 4,
-                completion: 'not started',
-            },
-            {
-                title: "Sitemap",
-                price: 5000,
-                days: 4,
-                completion: 'not started',
-            },
-            {
                 title: "Dynamic Schema Markup",
                 price: 10000,
                 days: 4,
