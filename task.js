@@ -54,9 +54,10 @@ tasks = [
 
         ]
     },
+   
     {
         title: "Page Creation",
-        completion: 'not started',
+        completion: 'in progress',
         breakdown: [
             {
                 title: "https://kimbal.io/smart-meters/",
@@ -74,7 +75,7 @@ tasks = [
                 title: "https://kimbal.io/careers/",
                 price: 4000,
                 days: 4,
-                completion: 'not started',
+                completion: 'completed',
             },
             {
                 title: "https://kimbal.io/meet-the-team/",
@@ -89,6 +90,36 @@ tasks = [
                 completion: 'not started',
             }
         ]
-    }
+    },
+    {
+        title: "SEO Fixes",
+        completion: 'not started',
+        breakdown: [
+            {
+                title: "Robot.txt",
+                price: 5000,
+                days: 4,
+                completion: 'not started',
+            },
+            {
+                title: "Sitemap",
+                price: 5000,
+                days: 4,
+                completion: 'not started',
+            },
+            {
+                title: "Dynamic Schema Markup",
+                price: 10000,
+                days: 4,
+                completion: 'not started',
+            }
+        ]
+    }, 
+    {
+        title: "Watt-wise Page",
+        price: 5000,
+        days: 4,
+        completion: 'not started',
+    },
 ]
 
