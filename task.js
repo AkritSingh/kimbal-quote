@@ -91,23 +91,37 @@ tasks = [
             }
         ]
     },
-    // {
-    //     title: "SEO Fixes",
-    //     completion: 'not started',
-    //     breakdown: [
-    //         {
-    //             title: "Dynamic Schema Markup",
-    //             price: 10000,
-    //             days: 4,
-    //             completion: 'not started',
-    //         }
-    //     ]
-    // }, 
     {
         title: "Watt-wise Page",
         price: 5000,
         days: 4,
-        completion: 'not started',
+        completion: 'completed',
     },
+    {
+        title: "SEO Changes",
+        completion: 'not started',
+        breakdown: [
+            {
+                title: "Home Page SEO Changes",
+                price: 1000,
+                days: 1,
+                completion: 'not started',
+            }
+        ]
+    }, 
+    {
+        title: "Content Updates",
+        completion: 'not started',
+        breakdown: [
+            {
+                title: "Add Popup of User Guide to Smart Meter Page",
+                price: 500,
+                days: 1,
+                completion: 'completed',
+            },
+        ]
+    }, 
+    
+    
 ]
 
