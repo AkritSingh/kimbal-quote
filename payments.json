@@ -5,7 +5,22 @@
     "developerPhone": "+91 6295570331",
     "invoices": [
         {
-            "id": "inv-004",
+            "id": "inv-001",
+            "title": "Final Settlement Invoice",
+            "description": "Final project completion payment",
+            "active": true,
+            "status": "pending",
+            "date": "1st April 2026",
+            "tasks": [
+                {
+                    "id": "task-001",
+                    "title": "Project Completion",
+                    "amount": 46500
+                }
+            ]
+        },
+        {
+            "id": "inv-002",
             "title": "Final Settlement Invoice",
             "description": "Final project completion payment",
             "active": true,
@@ -13,9 +28,9 @@
             "date": "",
             "tasks": [
                 {
-                    "id": "task-004",
+                    "id": "task-002",
                     "title": "Project Completion",
-                    "amount": 56000
+                    "amount": 17000
                 }
             ]
         }
