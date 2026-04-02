@@ -1,4 +1,4 @@
-tasks = [
+window.SPRINT_TASKS_1 = [
     {
         title: "UI/UX Design",
         completion: 'completed',

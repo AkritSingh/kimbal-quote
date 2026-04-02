@@ -36,9 +36,17 @@
             <div class="flex items-start gap-2 sm:gap-3 mb-3 sm:mb-4">
                 <div class="w-0.5 sm:w-1 h-8 sm:h-10 bg-gradient-to-b from-indigo-500 to-purple-600 rounded-full flex-shrink-0 mt-1"></div>
                 <div class="min-w-0 flex-1">
-                    <div class="flex items-center justify-between mb-1">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between mb-1">
                         <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 leading-tight">Payments</h1>
-                        <div class="flex items-center gap-2 sm:gap-3">
+                        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                            <div class="flex items-center gap-1.5 shrink-0">
+                                <label for="sprintSelect" class="text-[10px] text-gray-500 font-medium leading-none whitespace-nowrap">Sprint</label>
+                                <select id="sprintSelect"
+                                    class="rounded-md border border-gray-300 bg-white py-1 pl-2 pr-7 text-xs font-medium text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/40">
+                                    <option value="1">S1</option>
+                                    <option value="2">S2</option>
+                                </select>
+                            </div>
                             <a href="index.html" class="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-colors border border-indigo-200 hover:border-indigo-300">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -97,6 +105,20 @@
     </div>
 
     <script>
+        const SPRINT_STORAGE_KEY = 'kimbal-dashboard-sprint';
+
+        function getStoredSprint() {
+            const v = localStorage.getItem(SPRINT_STORAGE_KEY);
+            if (v === '1' || v === '2') return Number(v);
+            return 2;
+        }
+
+        function paymentsJsonUrl(sprintNum) {
+            return `payments_sprint_${sprintNum}.json`;
+        }
+
+        let currentSprint = getStoredSprint();
+
         const invoiceContainer = document.getElementById('invoiceContainer');
         const emptyState = document.getElementById('emptyState');
         const errorState = document.getElementById('errorState');
@@ -145,7 +167,7 @@
                         </div>
                         <div class="flex items-center gap-2">
                             ${statusBadge}
-                            <button onclick="window.location.href='invoice.html?invoiceId=${invoice.id}'" class="px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg border border-indigo-200 text-indigo-600 ${isActive ? 'hover:bg-indigo-50 transition-colors' : 'opacity-70 cursor-not-allowed'}">
+                            <button onclick="window.location.href='invoice.html?invoiceId=${encodeURIComponent(invoice.id)}&sprint=${currentSprint}'" class="px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg border border-indigo-200 text-indigo-600 ${isActive ? 'hover:bg-indigo-50 transition-colors' : 'opacity-70 cursor-not-allowed'}">
                                 ${buttonLabel}
                             </button>
                         </div>
@@ -155,8 +177,12 @@
         }
 
         async function loadInvoices() {
+            invoiceContainer.innerHTML = '';
+            emptyState.classList.add('hidden');
+            errorState.classList.add('hidden');
+
             try {
-                const response = await fetch('payments.json');
+                const response = await fetch(paymentsJsonUrl(currentSprint));
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -176,10 +202,36 @@
             }
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadInvoices);
-        } else {
+        function setSprint(sprintNum) {
+            currentSprint = sprintNum;
+            localStorage.setItem(SPRINT_STORAGE_KEY, String(sprintNum));
+            const select = document.getElementById('sprintSelect');
+            if (select) select.value = String(sprintNum);
             loadInvoices();
+        }
+
+        function init() {
+            const params = new URLSearchParams(window.location.search);
+            const q = params.get('sprint');
+            if (q === '1' || q === '2') {
+                currentSprint = Number(q);
+                localStorage.setItem(SPRINT_STORAGE_KEY, String(currentSprint));
+            }
+
+            const sprintSelect = document.getElementById('sprintSelect');
+            if (sprintSelect) {
+                sprintSelect.value = String(currentSprint);
+                sprintSelect.addEventListener('change', (e) => {
+                    setSprint(Number(e.target.value));
+                });
+            }
+            loadInvoices();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
         }
     </script>
 </body>

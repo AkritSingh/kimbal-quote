@@ -1,4 +1,4 @@
-tasks = [
+window.SPRINT_TASKS_2 = [
     {
         title: "Security Fixes",
         completion: 'completed',

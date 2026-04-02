@@ -52,7 +52,7 @@
         {
             "id": "inv-004",
             "title": "Final Settlement Invoice",
-            "description": "Final project completion payment (40% of remaining amount).",
+            "description": "Final project completion payment.",
             "active": true,
             "status": "paid",
             "date": "",

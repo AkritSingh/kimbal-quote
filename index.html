@@ -244,6 +244,14 @@
                             <p class="text-xs text-purple-500 mt-1 font-medium">Remaining: <span id="remainingDays">0
                                     days</span></p>
                         </div>
+                        <div class="flex items-center gap-1.5 self-end shrink-0">
+                            <label for="sprintSelect" class="text-[10px] text-gray-500 font-medium leading-none whitespace-nowrap">Sprint</label>
+                            <select id="sprintSelect"
+                                class="rounded-md border border-gray-300 bg-white py-1 pl-2 pr-7 text-xs font-medium text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/40">
+                                <option value="1">S1</option>
+                                <option value="2">S2</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div
@@ -277,18 +285,38 @@
         <div id="tasksContainer" class="space-y-2 sm:space-y-3"></div>
     </div>
 
-    <script src="task.js"></script>
+    <script src="task_sprint_1.js"></script>
+    <script src="task_sprint_2.js"></script>
     <script>
+        const SPRINT_STORAGE_KEY = 'kimbal-dashboard-sprint';
+
+        function getStoredSprint() {
+            const v = localStorage.getItem(SPRINT_STORAGE_KEY);
+            if (v === '1' || v === '2') return Number(v);
+            return 2;
+        }
+
+        function getTasksForSprint(sprintNum) {
+            return sprintNum === 2 ? window.SPRINT_TASKS_2 : window.SPRINT_TASKS_1;
+        }
+
+        let currentSprint = getStoredSprint();
+        let tasks = getTasksForSprint(currentSprint);
+
         // Global variable for paid amount
         let paidAmount = 0;
 
         // Valid paid statuses
         const PAID_STATUSES = ['paid', 'completed', 'received'];
 
+        function paymentsJsonUrl(sprintNum) {
+            return `payments_sprint_${sprintNum}.json`;
+        }
+
         // Fetch payments data
         async function fetchPayments() {
             try {
-                const response = await fetch('payments.json');
+                const response = await fetch(paymentsJsonUrl(currentSprint));
                 const data = await response.json();
 
                 paidAmount = 0;
@@ -579,19 +607,52 @@
             }
         }
 
-        // Initialize the app
-        function init() {
-            // Fetch payments data
-            fetchPayments();
+        function toggleTaskExpand(expandBtn) {
+            const taskId = expandBtn.getAttribute('data-task-id');
+            const breakdown = document.querySelector(`.breakdown-container[data-task-id="${taskId}"]`);
+            const header = document.querySelector(`.task-header[data-task-id="${taskId}"]`);
+            const chevron = expandBtn.querySelector('svg');
+            const isExpanded = header.getAttribute('data-expanded') === 'true';
 
+            if (isExpanded) {
+                breakdown.classList.remove('expanded');
+                chevron.classList.remove('chevron-expanded');
+                header.setAttribute('data-expanded', 'false');
+            } else {
+                breakdown.classList.add('expanded');
+                chevron.classList.add('chevron-expanded');
+                header.setAttribute('data-expanded', 'true');
+            }
+        }
+
+        let tasksContainerDelegationBound = false;
+
+        function bindTasksContainerDelegation() {
+            if (tasksContainerDelegationBound) return;
             const container = document.getElementById('tasksContainer');
+            container.addEventListener('click', (e) => {
+                const expandBtn = e.target.closest('.expand-btn');
+                if (expandBtn) {
+                    e.stopPropagation();
+                    toggleTaskExpand(expandBtn);
+                    return;
+                }
+                const header = e.target.closest('.task-header');
+                if (header) {
+                    const innerExpand = header.querySelector('.expand-btn');
+                    if (innerExpand) innerExpand.click();
+                }
+            });
+            tasksContainerDelegationBound = true;
+        }
 
-            // Render all tasks
+        function renderDashboard() {
+            const container = document.getElementById('tasksContainer');
+            container.innerHTML = '';
             tasks.forEach(task => {
                 container.innerHTML += renderTask(task, 0);
             });
 
-            // Calculate and display totals
             let totalTaskCount = 0;
             let pendingCount = 0;
             let inProgressCount = 0;
@@ -610,41 +671,32 @@
             document.getElementById('pendingTasks').textContent = pendingCount;
             document.getElementById('inProgressTasks').textContent = inProgressCount;
             document.getElementById('accomplishedTasks').textContent = accomplishedCount;
+        }
 
-            // Add expand/collapse functionality
-            document.querySelectorAll('.expand-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const taskId = btn.getAttribute('data-task-id');
-                    const container = document.querySelector(`.breakdown-container[data-task-id="${taskId}"]`);
-                    const header = document.querySelector(`.task-header[data-task-id="${taskId}"]`);
-                    const chevron = btn.querySelector('svg');
-                    const isExpanded = header.getAttribute('data-expanded') === 'true';
+        function setSprint(sprintNum) {
+            currentSprint = sprintNum;
+            localStorage.setItem(SPRINT_STORAGE_KEY, String(sprintNum));
+            tasks = getTasksForSprint(sprintNum);
+            const select = document.getElementById('sprintSelect');
+            if (select) select.value = String(sprintNum);
+            renderDashboard();
+            fetchPayments();
+        }
 
-                    if (isExpanded) {
-                        // Collapse
-                        container.classList.remove('expanded');
-                        chevron.classList.remove('chevron-expanded');
-                        header.setAttribute('data-expanded', 'false');
-                    } else {
-                        // Expand
-                        container.classList.add('expanded');
-                        chevron.classList.add('chevron-expanded');
-                        header.setAttribute('data-expanded', 'true');
-                    }
+        // Initialize the app
+        function init() {
+            fetchPayments();
+
+            const sprintSelect = document.getElementById('sprintSelect');
+            if (sprintSelect) {
+                sprintSelect.value = String(currentSprint);
+                sprintSelect.addEventListener('change', (e) => {
+                    setSprint(Number(e.target.value));
                 });
-            });
+            }
 
-            // Make entire header clickable for expand/collapse
-            document.querySelectorAll('.task-header').forEach(header => {
-                const taskId = header.getAttribute('data-task-id');
-                const expandBtn = document.querySelector(`.expand-btn[data-task-id="${taskId}"]`);
-                if (expandBtn) {
-                    header.addEventListener('click', () => {
-                        expandBtn.click();
-                    });
-                }
-            });
+            bindTasksContainerDelegation();
+            renderDashboard();
 
             // Add maintenance toggle functionality
             const maintenanceToggle = document.getElementById('maintenanceToggle');

@@ -28,7 +28,7 @@
                     <div class="flex items-center justify-between mb-1">
                         <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 leading-tight">Invoice <span id="invoiceTitleSmall"></span></h1>
                         <div class="flex items-center gap-2 sm:gap-3 no-print">
-                            <a href="payments.html" class="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-colors border border-indigo-200 hover:border-indigo-300">
+                            <a id="backToPayments" href="payments.html" class="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-colors border border-indigo-200 hover:border-indigo-300">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                                 </svg>
@@ -124,8 +124,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
+            const SPRINT_STORAGE_KEY = 'kimbal-dashboard-sprint';
+
             const urlParams = new URLSearchParams(window.location.search);
             const invoiceId = urlParams.get('invoiceId');
+            const sprintParam = urlParams.get('sprint');
+            let sprintNum = sprintParam === '1' || sprintParam === '2' ? Number(sprintParam) : null;
+            if (sprintNum === null) {
+                const stored = localStorage.getItem(SPRINT_STORAGE_KEY);
+                sprintNum = stored === '1' || stored === '2' ? Number(stored) : 2;
+            }
+
             const invoiceContent = document.getElementById('invoiceContent');
             const errorState = document.getElementById('errorState');
 
@@ -143,8 +152,13 @@
                 return;
             }
 
+            const backLink = document.getElementById('backToPayments');
+            if (backLink) {
+                backLink.href = `payments.html?sprint=${sprintNum}`;
+            }
+
             try {
-                const response = await fetch('payments.json');
+                const response = await fetch(`payments_sprint_${sprintNum}.json`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch payments data');
                 }
