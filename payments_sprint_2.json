@@ -7,7 +7,7 @@
         {
             "id": "inv-001",
             "title": "Final Settlement Invoice",
-            "description": "Final project completion payment",
+            "description": "1st milestone payment (based on work completion)",
             "active": true,
             "status": "pending",
             "date": "1st April 2026",
@@ -22,7 +22,7 @@
         {
             "id": "inv-002",
             "title": "Final Settlement Invoice",
-            "description": "Final project completion payment",
+            "description": "Remaining balance payment",
             "active": true,
             "status": "pending",
             "date": "",
