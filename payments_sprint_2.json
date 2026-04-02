@@ -6,7 +6,7 @@
     "invoices": [
         {
             "id": "inv-001",
-            "title": "Final Settlement Invoice",
+            "title": "1st Milestone Invoice",
             "description": "1st milestone payment (based on work completion)",
             "active": true,
             "status": "pending",
@@ -21,7 +21,7 @@
         },
         {
             "id": "inv-002",
-            "title": "Final Settlement Invoice",
+            "title": "Remaining Balance Invoice",
             "description": "Remaining balance payment",
             "active": true,
             "status": "pending",
