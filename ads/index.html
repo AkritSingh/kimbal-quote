@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flip Card Animation</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f0f0f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .scene {
+      perspective: 1000px;
+      width: 300px;
+      height: 300px;
+    }
+
+    .card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      /* Animation controlled by JavaScript */
+    }
+
+    /*
+      Two rapid rotations (540°) landing on the opposite face, with ease-out.
+      Forward: 0 → 540  (two spins, lands on back/image)
+      Backward: 540 → 0  (two spins back, lands on front/text)
+    */
+    @keyframes flipForward {
+      0%   { transform: rotateY(0deg); }
+      100% { transform: rotateY(540deg); }
+    }
+
+    @keyframes flipBackward {
+      0%   { transform: rotateY(540deg); }
+      100% { transform: rotateY(0deg); }
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.12),
+        0 2px 6px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    /* Front face - Text */
+    .card-front {
+      background: #ffffff;
+      padding: 40px;
+    }
+
+    .card-front .subtitle {
+      font-size: 15px;
+      font-weight: 400;
+      color: #333;
+      letter-spacing: 0.3px;
+      margin-bottom: 6px;
+    }
+
+    .card-front .title {
+      font-size: 40px;
+      font-weight: 800;
+      color: #000;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .card-front .tagline {
+      font-size: 14px;
+      font-weight: 400;
+      color: #555;
+      letter-spacing: 0.3px;
+    }
+
+    /* Back face - Image */
+    .card-back {
+      transform: rotateY(180deg);
+      background: #f5f5f5;
+    }
+
+    .card-back img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Subtle rim highlight */
+    .card-face::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 50%;
+      box-shadow: 
+        inset 0 1px 3px rgba(255, 255, 255, 0.4),
+        inset 0 -1px 3px rgba(0, 0, 0, 0.05);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scene">
+    <div class="card">
+      <!-- Front: Text Side -->
+      <div class="card-face card-front">
+        <span class="subtitle">The new Hyundai</span>
+        <span class="title">EXTER.</span>
+        <span class="tagline">Drive to shine.</span>
+      </div>
+      <!-- Back: Image Side -->
+      <div class="card-face card-back">
+        <img src="exter.jpg" alt="Hyundai Exter" />
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const card = document.querySelector('.card');
+    const SPIN_DURATION = 1200;  // ms - duration of the double spin
+    const PAUSE_DURATION = 1800; // ms - interval to hold on each side
+    let isShowingBack = false;
+
+    function flip() {
+      if (!isShowingBack) {
+        // Spin forward: 0 -> 540 (two rotations, land on back)
+        card.style.animation = 'none';
+        card.offsetHeight; // force reflow
+        card.style.animation = `flipForward ${SPIN_DURATION}ms cubic-bezier(0, 0, 0.2, 1) forwards`;
+      } else {
+        // Spin backward: 540 -> 0 (two rotations back, land on front)
+        card.style.animation = 'none';
+        card.offsetHeight;
+        card.style.animation = `flipBackward ${SPIN_DURATION}ms cubic-bezier(0, 0, 0.2, 1) forwards`;
+      }
+      isShowingBack = !isShowingBack;
+      setTimeout(flip, SPIN_DURATION + PAUSE_DURATION);
+    }
+
+    // Start the first flip after an initial pause
+    setTimeout(flip, PAUSE_DURATION);
+  </script>
+
+<script data-pplx-inline-edit>
+(function(){
+  if(window===window.top)return;
+  function inlineAll(orig,clone){
+    if(orig.nodeType!==1)return;
+    try{
+      var cs=getComputedStyle(orig);
+      var t='';
+      for(var i=0;i<cs.length;i++){t+=cs[i]+':'+cs.getPropertyValue(cs[i])+';';}
+      clone.style.cssText=t;
+    }catch(e){}
+    var oc=orig.children,cc=clone.children;
+    for(var j=0;j<oc.length&&j<cc.length;j++){inlineAll(oc[j],cc[j]);}
+  }
+  function stripExternal(clone){
+    var imgs=clone.querySelectorAll('img');
+    for(var i=0;i<imgs.length;i++){
+      var s=imgs[i].getAttribute('src');
+      if(s&&!s.startsWith('data:'))imgs[i].removeAttribute('src');
+    }
+    var all=clone.querySelectorAll('*');
+    for(var i=0;i<all.length;i++){
+      var st=all[i].style.cssText;
+      if(st&&st.indexOf('url(')>=0){
+        all[i].style.cssText=st.replace(/url\(["']?(?!data:)[^)"']*["']?\)/gi,'none');
+      }
+    }
+  }
+  window.addEventListener('message',function(e){
+    if(!e.data||e.data.type!=='INLINE_EDIT_CAPTURE_REQUEST')return;
+    var scrollX=window.scrollX||window.pageXOffset||0;
+    var scrollY=window.scrollY||window.pageYOffset||0;
+    var w=window.innerWidth,h=window.innerHeight;
+    try{
+      var clone=document.documentElement.cloneNode(true);
+      var rm=clone.querySelectorAll('script,link[rel="stylesheet"],style');
+      for(var i=0;i<rm.length;i++){rm[i].remove();}
+      inlineAll(document.documentElement,clone);
+      stripExternal(clone);
+      var html=new XMLSerializer().serializeToString(clone);
+      var svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'">'
+        +'<foreignObject width="100%" height="100%">'
+        +'<div xmlns="http://www.w3.org/1999/xhtml" style="width:'+w+'px;height:'+h+'px;overflow:hidden">'
+        +'<div style="transform:translate(-'+scrollX+'px,-'+scrollY+'px);transform-origin:top left">'
+        +html+'</div></div></foreignObject></svg>';
+      var svgUrl='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+      var img=new Image();
+      img.onload=function(){
+        var c=document.createElement('canvas');c.width=w;c.height=h;
+        c.getContext('2d').drawImage(img,0,0);
+        window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:c.toDataURL('image/png'),scrollX:scrollX,scrollY:scrollY},'*');
+      };
+      img.onerror=function(){
+        window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:null,scrollX:scrollX,scrollY:scrollY},'*');
+      };
+      img.src=svgUrl;
+    }catch(err){
+      window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:null,scrollX:scrollX,scrollY:scrollY},'*');
+    }
+  });
+})();
+</script></body>
+</html>
